@@ -1,4 +1,4 @@
-package andromeda
+package armada
 
 import (
 	_ "embed"
@@ -15,13 +15,13 @@ import (
 
 func makeapp() *cli.App {
 	app := &cli.App{
-		Name:    "andromeda",
-		Usage:   "Andromeda the mother of all jobs",
+		Name:    "armada",
+		Usage:   "Armada the mother of all jobs",
 		Version: strings.TrimSpace(string(Version)),
 		Commands: []*cli.Command{
 			{
 				Name:  "server",
-				Usage: "Andromeda Server",
+				Usage: "Armada Server",
 				Action: func(c *cli.Context) error {
 					if !isatty.IsTerminal(os.Stdout.Fd()) {
 						ansi.DisableColors(true)
@@ -49,22 +49,22 @@ func makeapp() *cli.App {
 			},
 			{
 				Name:  "client",
-				Usage: "Andromeda Client",
+				Usage: "Armada Client",
 				Action: func(c *cli.Context) error {
 					logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 					var targetURL string
-					if os.Getenv("ANDROmeda_TARGET_URL") != "" {
-						targetURL = os.Getenv("ANDROmeda_TARGET_URL")
+					if os.Getenv("ARMADA_TARGET_URL") != "" {
+						targetURL = os.Getenv("ARMADA_TARGET_URL")
 					} else {
-						if c.NArg() != 2 {
+						if c.NArg() != 1 {
 							return fmt.Errorf("need at least a target-url")
 						}
-						targetURL = c.Args().Get(1)
+						targetURL = c.Args().First()
 					}
 					if _, err := url.Parse(targetURL); err != nil {
 						return fmt.Errorf("target url %s is not a valid url %w", targetURL, err)
 					}
-					cfg := andromeda{
+					cfg := armada{
 						targetURL: targetURL,
 						logger:    logger,
 					}

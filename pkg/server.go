@@ -1,4 +1,4 @@
-package andromeda
+package armada
 
 import (
 	_ "embed"
@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -22,8 +21,9 @@ var (
 )
 
 type Job struct {
-	Tags []string `json:"tags"`
-	URL  string   `json:"url"`
+	Tags    []string          `json:"tags"`
+	Volumes map[string]string `json:"volumes"`
+	Yamls   []string          `json:"yamls"`
 }
 
 func errorIt(w http.ResponseWriter, _ *http.Request, status int, err error) {
@@ -55,9 +55,17 @@ func serve(c *cli.Context) error {
 		w.WriteHeader(http.StatusFound)
 	})
 
+	router.Get("/tag/{tag}", func(w http.ResponseWriter, r *http.Request) {
+		tag := chi.URLParam(r, "tag")
+		newURL, err := r.URL.Parse(fmt.Sprintf("%s?stream=%s", r.URL.Path, "/tag/"+tag))
+		if err != nil {
+			errorIt(w, r, http.StatusInternalServerError, err)
+			return
+		}
+		r.URL = newURL
+		events.ServeHTTP(w, r)
+	})
 	router.Post("/job", func(w http.ResponseWriter, r *http.Request) {
-		// grab current time stamp before we take any further actions
-		now := time.Now().UTC()
 		// check if we have content-type json
 		if !strings.Contains(r.Header.Get("Content-Type"), "application/json") {
 			errorIt(w, r, http.StatusBadRequest, fmt.Errorf("content-type must be application/json"))
@@ -74,15 +82,18 @@ func serve(c *cli.Context) error {
 			errorIt(w, r, http.StatusBadRequest, err)
 			return
 		}
-		channel := strings.Join(job.Tags, "-")
-		events.CreateStream(channel)
-		events.Publish(channel, &sse.Event{
-			Data: body,
-		})
+		for _, tag := range job.Tags {
+			if tag == "" {
+				errorIt(w, r, http.StatusBadRequest, fmt.Errorf("tag cannot be empty"))
+				return
+			}
+			events.CreateStream(tag)
+			events.Publish("/tag/"+tag, &sse.Event{
+				Data: body,
+			})
+			fmt.Printf("created a job for tag %s, %s\n", tag, body)
+		}
 		w.WriteHeader(http.StatusAccepted)
-
-		fmt.Fprintf(w, "{\"status\": %d, \"channel\": \"%s\", \"message\": \"ok\"}\n", http.StatusAccepted, channel)
-		fmt.Fprintf(os.Stdout, "%s Published %s on channel %s\n", now.Format("2006-01-02T15.04.01.000"), middleware.GetReqID(r.Context()), channel)
 	})
 
 	portAddr := fmt.Sprintf("%s:%d", c.String("address"), c.Int("port"))

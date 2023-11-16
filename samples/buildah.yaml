@@ -1,0 +1,56 @@
+---
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: pipeline-buildah
+spec:
+  workspaces:
+  - name: workspace
+  tasks:
+    - name: clone
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      params:
+        - name: url
+          value: https://github.com/chmouel/scratchmyback
+        - name: deleteExisting
+          value: "true"
+      workspaces:
+        - name: output
+          workspace: workspace
+    - name: build-push
+      params:
+      - name: IMAGE
+        value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/testing
+      - name: DOCKERFILE
+        value: Dockerfile
+      - name: CONTEXT
+        value: .
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      workspaces:
+        - name: source
+          workspace: workspace
+      runAfter:
+        - clone
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  labels:
+    tekton.dev/pipeline: pipeline-buildah
+  name: pipeline-buildah-run
+spec:
+  pipelineRef:
+    name: pipeline-buildah
+  workspaces:
+  - name: workspace
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
