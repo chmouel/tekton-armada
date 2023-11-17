@@ -18,7 +18,7 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-type Clients struct {
+type KClients struct {
 	Kubernetes *kubernetes.Clientset
 	Tekton     *tektonversioned.Clientset
 	Dynamic    dynamic.Interface
@@ -26,7 +26,15 @@ type Clients struct {
 	Host       string
 }
 
-func (c *Clients) Connect() error {
+func NewKClients() (*KClients, error) {
+	c := &KClients{}
+	if err := c.Connect(); err != nil {
+		return nil, err
+	}
+	return c, nil
+}
+
+func (c *KClients) Connect() error {
 	loadingRules := clientcmd.NewDefaultClientConfigLoadingRules()
 	configOverrides := &clientcmd.ConfigOverrides{}
 	kclient := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(loadingRules, configOverrides)

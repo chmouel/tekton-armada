@@ -1,6 +1,7 @@
 package armada
 
 import (
+	"context"
 	_ "embed"
 	"fmt"
 	"net/url"
@@ -64,12 +65,12 @@ func makeapp() *cli.App {
 					if _, err := url.Parse(targetURL); err != nil {
 						return fmt.Errorf("target url %s is not a valid url %w", targetURL, err)
 					}
-					cfg := armada{
-						targetURL: targetURL,
-						logger:    logger,
+					armada, err := NewArmada(logger, targetURL)
+					if err != nil {
+						return err
 					}
-					err := cfg.clientSetup()
-					return err
+					ctx := context.Background()
+					return armada.clientSetup(ctx)
 				},
 			},
 		},
