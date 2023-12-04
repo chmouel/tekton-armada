@@ -243,9 +243,9 @@ type SharedInformerFactory interface {
 	// client.
 	InformerFor(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer
 
-	Armadas() armadas.Interface
+	Github() armadas.Interface
 }
 
-func (f *sharedInformerFactory) Armadas() armadas.Interface {
+func (f *sharedInformerFactory) Github() armadas.Interface {
 	return armadas.New(f, f.namespace, f.tweakListOptions)
 }

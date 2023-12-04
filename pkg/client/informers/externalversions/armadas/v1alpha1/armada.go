@@ -62,13 +62,13 @@ func NewFilteredArmadaInformer(client versioned.Interface, namespace string, res
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.ArmadasV1alpha1().Armadas(namespace).List(context.TODO(), options)
+				return client.GithubV1alpha1().Armadas(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.ArmadasV1alpha1().Armadas(namespace).Watch(context.TODO(), options)
+				return client.GithubV1alpha1().Armadas(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&armadasv1alpha1.Armada{},

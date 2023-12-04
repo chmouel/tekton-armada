@@ -57,7 +57,7 @@ type armadas struct {
 }
 
 // newArmadas returns a Armadas
-func newArmadas(c *ArmadasV1alpha1Client, namespace string) *armadas {
+func newArmadas(c *GithubV1alpha1Client, namespace string) *armadas {
 	return &armadas{
 		client: c.RESTClient(),
 		ns:     namespace,

@@ -35,6 +35,6 @@ func init() {
 
 func withInformer(ctx context.Context) (context.Context, controller.Informer) {
 	f := fake.Get(ctx)
-	inf := f.Armadas().V1alpha1().Armadas()
+	inf := f.Github().V1alpha1().Armadas()
 	return context.WithValue(ctx, armada.Key{}, inf), inf.Informer()
 }

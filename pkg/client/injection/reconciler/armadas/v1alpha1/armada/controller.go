@@ -44,7 +44,7 @@ import (
 
 const (
 	defaultControllerAgentName = "armada-controller"
-	defaultFinalizerName       = "armadas.armadas"
+	defaultFinalizerName       = "armadas.github.com/chmouel/armadas"
 )
 
 // NewImpl returns a controller.Impl that handles queuing and feeding work from
@@ -103,7 +103,7 @@ func NewImpl(ctx context.Context, r Interface, optionsFns ...controller.OptionsF
 
 	logger = logger.With(
 		zap.String(logkey.ControllerType, ctrTypeName),
-		zap.String(logkey.Kind, "armadas.Armada"),
+		zap.String(logkey.Kind, "github.com/chmouel/armadas.Armada"),
 	)
 
 	impl := controller.NewContext(ctx, rec, controller.ControllerOptions{WorkQueueName: ctrTypeName, Logger: logger})

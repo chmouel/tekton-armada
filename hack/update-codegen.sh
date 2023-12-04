@@ -49,10 +49,6 @@ ${KNATIVE_CODEGEN_PKG}/hack/generate-knative.sh "injection" \
 exit
 group "Update CRD Schema"
 
-go run $(dirname $0)/../cmd/schema/ dump SimpleDeployment |
-	run_yq eval-all --header-preprocess=false --inplace 'select(fileIndex == 0).spec.versions[0].schema.openAPIV3Schema = select(fileIndex == 1) | select(fileIndex == 0)' \
-		$(dirname $0)/../config/300-simpledeployment.yaml -
-
 go run $(dirname $0)/../cmd/schema/ dump AddressableService |
 	run_yq eval-all --header-preprocess=false --inplace 'select(fileIndex == 0).spec.versions[0].schema.openAPIV3Schema = select(fileIndex == 1) | select(fileIndex == 0)' \
 		$(dirname $0)/../config/300-addressableservice.yaml -

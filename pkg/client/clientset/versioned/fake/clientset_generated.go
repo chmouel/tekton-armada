@@ -20,8 +20,8 @@ package fake
 
 import (
 	clientset "github.com/chmouel/armadas/pkg/client/clientset/versioned"
-	armadasv1alpha1 "github.com/chmouel/armadas/pkg/client/clientset/versioned/typed/armadas/v1alpha1"
-	fakearmadasv1alpha1 "github.com/chmouel/armadas/pkg/client/clientset/versioned/typed/armadas/v1alpha1/fake"
+	githubv1alpha1 "github.com/chmouel/armadas/pkg/client/clientset/versioned/typed/armadas/v1alpha1"
+	fakegithubv1alpha1 "github.com/chmouel/armadas/pkg/client/clientset/versioned/typed/armadas/v1alpha1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"
@@ -79,7 +79,7 @@ var (
 	_ testing.FakeClient  = &Clientset{}
 )
 
-// ArmadasV1alpha1 retrieves the ArmadasV1alpha1Client
-func (c *Clientset) ArmadasV1alpha1() armadasv1alpha1.ArmadasV1alpha1Interface {
-	return &fakearmadasv1alpha1.FakeArmadasV1alpha1{Fake: &c.Fake}
+// GithubV1alpha1 retrieves the GithubV1alpha1Client
+func (c *Clientset) GithubV1alpha1() githubv1alpha1.GithubV1alpha1Interface {
+	return &fakegithubv1alpha1.FakeGithubV1alpha1{Fake: &c.Fake}
 }

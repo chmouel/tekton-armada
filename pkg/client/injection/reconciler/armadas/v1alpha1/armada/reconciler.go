@@ -315,7 +315,7 @@ func (r *reconcilerImpl) updateStatus(ctx context.Context, logger *zap.SugaredLo
 		// The first iteration tries to use the injectionInformer's state, subsequent attempts fetch the latest state via API.
 		if attempts > 0 {
 
-			getter := r.Client.ArmadasV1alpha1().Armadas(desired.Namespace)
+			getter := r.Client.GithubV1alpha1().Armadas(desired.Namespace)
 
 			existing, err = getter.Get(ctx, desired.Name, metav1.GetOptions{})
 			if err != nil {
@@ -336,7 +336,7 @@ func (r *reconcilerImpl) updateStatus(ctx context.Context, logger *zap.SugaredLo
 
 		existing.Status = desired.Status
 
-		updater := r.Client.ArmadasV1alpha1().Armadas(existing.Namespace)
+		updater := r.Client.GithubV1alpha1().Armadas(existing.Namespace)
 
 		_, err = updater.UpdateStatus(ctx, existing, metav1.UpdateOptions{})
 		return err
@@ -384,7 +384,7 @@ func (r *reconcilerImpl) updateFinalizersFiltered(ctx context.Context, resource 
 		return resource, err
 	}
 
-	patcher := r.Client.ArmadasV1alpha1().Armadas(resource.Namespace)
+	patcher := r.Client.GithubV1alpha1().Armadas(resource.Namespace)
 
 	resourceName := resource.Name
 	updated, err := patcher.Patch(ctx, resourceName, types.MergePatchType, patch, metav1.PatchOptions{})

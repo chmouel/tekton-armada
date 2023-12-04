@@ -32,13 +32,13 @@ import (
 
 // FakeArmadas implements ArmadaInterface
 type FakeArmadas struct {
-	Fake *FakeArmadasV1alpha1
+	Fake *FakeGithubV1alpha1
 	ns   string
 }
 
-var armadasResource = schema.GroupVersionResource{Group: "armadas", Version: "v1alpha1", Resource: "armadas"}
+var armadasResource = schema.GroupVersionResource{Group: "github.com/chmouel/armadas", Version: "v1alpha1", Resource: "armadas"}
 
-var armadasKind = schema.GroupVersionKind{Group: "armadas", Version: "v1alpha1", Kind: "Armada"}
+var armadasKind = schema.GroupVersionKind{Group: "github.com/chmouel/armadas", Version: "v1alpha1", Kind: "Armada"}
 
 // Get takes name of the armada, and returns the corresponding armada object, and an error if there is any.
 func (c *FakeArmadas) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Armada, err error) {
