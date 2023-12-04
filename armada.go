@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	armada "github.com/chmouel/armada/pkg"
+	armada "github.com/chmouel/armadas/pkg"
 )
 
 func main() {
