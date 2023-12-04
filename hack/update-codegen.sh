@@ -45,13 +45,12 @@ ${KNATIVE_CODEGEN_PKG}/hack/generate-knative.sh "injection" \
 	github.com/chmouel/armadas/pkg/client github.com/chmouel/armadas/pkg/apis \
 	"armadas:v1alpha1" \
 	--go-header-file ${REPO_ROOT_DIR}/hack/boilerplate/boilerplate.go.txt
-
-exit
-group "Update CRD Schema"
-
-go run $(dirname $0)/../cmd/schema/ dump AddressableService |
-	run_yq eval-all --header-preprocess=false --inplace 'select(fileIndex == 0).spec.versions[0].schema.openAPIV3Schema = select(fileIndex == 1) | select(fileIndex == 0)' \
-		$(dirname $0)/../config/300-addressableservice.yaml -
+#
+# group "Update CRD Schema"
+#
+# go run ./cmd/schema/ dump Armada |
+# 	run_yq eval-all --header-preprocess=false --inplace 'select(fileIndex == 0).spec.versions[0].schema.openAPIV3Schema = select(fileIndex == 1) | select(fileIndex == 0)' \
+# 		$(dirname $0)/../config/300-armada.yaml -
 
 group "Update deps post-codegen"
 

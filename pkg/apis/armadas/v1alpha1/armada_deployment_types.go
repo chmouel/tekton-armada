@@ -33,17 +33,17 @@ type Armada struct {
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	// Spec holds the desired state of the SimpleDeployment (from the client).
+	// Spec holds the desired state of the Armada (from the client).
 	// +optional
 	Spec ArmadaSpec `json:"spec,omitempty"`
 
-	// Status communicates the observed state of the SimpleDeployment (from the controller).
+	// Status communicates the observed state of the Armada (from the controller).
 	// +optional
 	Status ArmadaStatus `json:"status,omitempty"`
 }
 
 var (
-	// Check that AddressableService can be validated and defaulted.
+	// Check that Armada can be validated and defaulted.
 	_ apis.Validatable   = (*Armada)(nil)
 	_ apis.Defaultable   = (*Armada)(nil)
 	_ kmeta.OwnerRefable = (*Armada)(nil)
@@ -51,17 +51,16 @@ var (
 	_ duckv1.KRShaped = (*Armada)(nil)
 )
 
-// ArmadaSpec holds the desired state of the SimpleDeployment (from the client).
-type ArmadaSpec struct {
-	Image    string `json:"image"`
-	Replicas int32  `json:"replicas"`
-}
+// ArmadaSpec holds the desired state of the Armada (from the client).
+type ArmadaSpec struct{}
 
-// ArmadaStatus
+// ArmadaStatus is the status that makes it the best of the best
 type ArmadaStatus struct {
 	duckv1.Status `json:",inline"`
 
-	ReadyReplicas int32 `json:"readyReplicas"`
+	// Address holds the information needed to connect this Addressable up to receive events.
+	// +optional
+	Address *duckv1.Addressable `json:"address,omitempty"`
 }
 
 // ArmadaList is a list of Armada resources
