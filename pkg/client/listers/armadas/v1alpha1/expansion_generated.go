@@ -18,10 +18,10 @@ limitations under the License.
 
 package v1alpha1
 
-// ArmadaListerExpansion allows custom methods to be added to
-// ArmadaLister.
-type ArmadaListerExpansion interface{}
+// JobListerExpansion allows custom methods to be added to
+// JobLister.
+type JobListerExpansion interface{}
 
-// ArmadaNamespaceListerExpansion allows custom methods to be added to
-// ArmadaNamespaceLister.
-type ArmadaNamespaceListerExpansion interface{}
+// JobNamespaceListerExpansion allows custom methods to be added to
+// JobNamespaceLister.
+type JobNamespaceListerExpansion interface{}

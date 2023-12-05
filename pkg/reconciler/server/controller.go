@@ -22,26 +22,23 @@ import (
 	"knative.dev/pkg/configmap"
 	"knative.dev/pkg/controller"
 
-	armadainformer "github.com/chmouel/armadas/pkg/client/injection/informers/armadas/v1alpha1/armada"
-	armadareconciler "github.com/chmouel/armadas/pkg/client/injection/reconciler/armadas/v1alpha1/armada"
+	jobinformer "github.com/chmouel/armadas/pkg/client/injection/informers/armadas/v1alpha1/job"
+	jobreconciler "github.com/chmouel/armadas/pkg/client/injection/reconciler/armadas/v1alpha1/job"
 	kubeclient "knative.dev/pkg/client/injection/kube/client"
 )
 
 // NewController creates a Reconciler and returns the result of NewImpl.
-func NewController(ctx context.Context, cmw configmap.Watcher) *controller.Impl {
-	// Obtain an informer to both the main and child resources. These will be started by
-	// the injection framework automatically. They'll keep a cached representation of the
-	// cluster's state of the respective resource at all times.
-	armadaInformer := armadainformer.Get(ctx)
+func NewController(ctx context.Context, _ configmap.Watcher) *controller.Impl {
+	jobInformer := jobinformer.Get(ctx)
 
 	r := &Reconciler{
-		// The client will be needed to create/delete Pods via the API.
 		kubeclient: kubeclient.Get(ctx),
 	}
-	impl := armadareconciler.NewImpl(ctx, r)
+	impl := jobreconciler.NewImpl(ctx, r)
 
-	// Listen for events on the main resource and enqueue themselves.
-	armadaInformer.Informer().AddEventHandler(controller.HandleAll(impl.Enqueue))
+	_, _ = jobInformer.Informer().AddEventHandler(
+		controller.HandleAll(impl.Enqueue),
+	)
 
 	return impl
 }

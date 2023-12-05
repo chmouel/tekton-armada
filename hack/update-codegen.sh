@@ -52,7 +52,7 @@ ${KNATIVE_CODEGEN_PKG}/hack/generate-knative.sh "injection" \
 # 	run_yq eval-all --header-preprocess=false --inplace 'select(fileIndex == 0).spec.versions[0].schema.openAPIV3Schema = select(fileIndex == 1) | select(fileIndex == 0)' \
 # 		$(dirname $0)/../config/300-armada.yaml -
 
-group "Update deps post-codegen"
-
-# Make sure our dependencies are up-to-date
-${REPO_ROOT_DIR}/hack/update-deps.sh
+# group "Update deps post-codegen"
+#
+# # Make sure our dependencies are up-to-date
+# ${REPO_ROOT_DIR}/hack/update-deps.sh

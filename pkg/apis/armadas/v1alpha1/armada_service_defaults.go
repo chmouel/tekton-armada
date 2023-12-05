@@ -21,6 +21,5 @@ import (
 )
 
 // SetDefaults implements apis.Defaultable
-func (as *Armada) SetDefaults(ctx context.Context) {
-	// Nothing to default.
+func (as *Job) SetDefaults(ctx context.Context) {
 }

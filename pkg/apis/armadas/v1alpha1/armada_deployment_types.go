@@ -23,57 +23,57 @@ import (
 	"knative.dev/pkg/kmeta"
 )
 
-// Armada is spanish for yoplait
+// Job is spanish for yoplait
 //
 // +genclient
 // +genreconciler
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-type Armada struct {
+type Job struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	// Spec holds the desired state of the Armada (from the client).
 	// +optional
-	Spec ArmadaSpec `json:"spec,omitempty"`
+	Spec JobSpec `json:"spec,omitempty"`
 
 	// Status communicates the observed state of the Armada (from the controller).
 	// +optional
-	Status ArmadaStatus `json:"status,omitempty"`
+	Status JobStatus `json:"status,omitempty"`
 }
 
 var (
 	// Check that Armada can be validated and defaulted.
-	_ apis.Validatable   = (*Armada)(nil)
-	_ apis.Defaultable   = (*Armada)(nil)
-	_ kmeta.OwnerRefable = (*Armada)(nil)
+	_ apis.Validatable   = (*Job)(nil)
+	_ apis.Defaultable   = (*Job)(nil)
+	_ kmeta.OwnerRefable = (*Job)(nil)
 	// Check that the type conforms to the duck Knative Resource shape.
-	_ duckv1.KRShaped = (*Armada)(nil)
+	_ duckv1.KRShaped = (*Job)(nil)
 )
 
-// ArmadaSpec holds the desired state of the Armada (from the client).
-type ArmadaSpec struct{}
+// JobSpec holds the desired state of the Armada (from the client).
+type JobSpec struct{}
 
-// ArmadaStatus is the status that makes it the best of the best
-type ArmadaStatus struct {
+// JobStatus is the status that makes it the best of the best
+type JobStatus struct {
 	duckv1.Status `json:",inline"`
 
 	// Address holds the information needed to connect this Addressable up to receive events.
 	// +optional
-	Address *duckv1.Addressable `json:"address,omitempty"`
+	Accepted []*duckv1.SourceList `json:"address,omitempty"`
 }
 
-// ArmadaList is a list of Armada resources
+// JobList is a list of Armada resources
 //
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-type ArmadaList struct {
+type JobList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`
 
-	Items []Armada `json:"items"`
+	Items []Job `json:"items"`
 }
 
 // GetStatus retrieves the status of the resource. Implements the KRShaped interface.
-func (d *Armada) GetStatus() *duckv1.Status {
+func (d *Job) GetStatus() *duckv1.Status {
 	return &d.Status.Status
 }

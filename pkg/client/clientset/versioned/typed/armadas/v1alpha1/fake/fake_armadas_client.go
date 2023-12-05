@@ -28,8 +28,8 @@ type FakeGithubV1alpha1 struct {
 	*testing.Fake
 }
 
-func (c *FakeGithubV1alpha1) Armadas(namespace string) v1alpha1.ArmadaInterface {
-	return &FakeArmadas{c, namespace}
+func (c *FakeGithubV1alpha1) Jobs(namespace string) v1alpha1.JobInterface {
+	return &FakeJobs{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate

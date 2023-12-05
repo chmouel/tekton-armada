@@ -32,10 +32,10 @@ rules:
   - apiGroups: ["apiextensions.k8s.io"]
     resources: ["customresourcedefinitions"]
     verbs: ["get", "update"]
-    resourceNames: ["armadas.chmouel.com"]
+    resourceNames: ["jobs.armadas.chmouel.com"]
 
   # Allow us to reconcile our resources.
-  - apiGroups: ["chmouel.com"]
+  - apiGroups: ["armadas.chmouel.com"]
     resources: ["*"]
     verbs: ["get", "list", "update", "watch"]
 

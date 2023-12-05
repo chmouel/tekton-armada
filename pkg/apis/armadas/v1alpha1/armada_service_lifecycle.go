@@ -21,18 +21,21 @@ import (
 	"knative.dev/pkg/apis"
 )
 
-var condSet = apis.NewLivingConditionSet()
+var (
+	condSet      = apis.NewLivingConditionSet()
+	ResourceName = "Job"
+)
 
 // GetGroupVersionKind implements kmeta.OwnerRefable
-func (*Armada) GetGroupVersionKind() schema.GroupVersionKind {
-	return SchemeGroupVersion.WithKind("Armada")
+func (*Job) GetGroupVersionKind() schema.GroupVersionKind {
+	return SchemeGroupVersion.WithKind(ResourceName)
 }
 
 // GetConditionSet retrieves the condition set for this resource. Implements the KRShaped interface.
-func (as *Armada) GetConditionSet() apis.ConditionSet {
+func (as *Job) GetConditionSet() apis.ConditionSet {
 	return condSet
 }
 
 // InitializeConditions sets the initial values to the conditions.
-func (ass *Armada) InitializeConditions() {
+func (ass *Job) InitializeConditions() {
 }

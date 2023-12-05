@@ -1,0 +1,7 @@
+# This is the most basic CRD needed to get started handling CI for the
+# sample-app repo.
+---
+apiVersion: "armadas.chmouel.com/v1alpha1"
+kind: Job
+metadata:
+  name: sample-job
