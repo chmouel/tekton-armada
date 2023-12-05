@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: armadas-namespace-rbac
+  namespace: armadas
+  labels:
+    armadas.chmouel.com/release: devel
+subjects:
+  - kind: ServiceAccount
+    name: server
+    namespace: armadas
+roleRef:
+  kind: Role
+  name: armadas-namespace-rbac
+  apiGroup: rbac.authorization.k8s.io

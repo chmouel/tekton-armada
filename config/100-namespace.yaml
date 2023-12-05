@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: armadas
+  labels:
+    istio-injection: enabled
+    armadas.chmouel.com/release: devel

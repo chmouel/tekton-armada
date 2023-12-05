@@ -18,5 +18,5 @@ package armadas
 
 const (
 	// GroupName is the name of the API group.
-	GroupName = "armadas.chmouel.com"
+	GroupName = "chmouel.com"
 )
