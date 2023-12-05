@@ -32,7 +32,7 @@ rules:
   - apiGroups: ["apiextensions.k8s.io"]
     resources: ["customresourcedefinitions"]
     verbs: ["get", "update"]
-    resourceNames: ["jobs.armadas.chmouel.com"]
+    resourceNames: ["fire.armadas.chmouel.com"]
 
   # Allow us to reconcile our resources.
   - apiGroups: ["armadas.chmouel.com"]

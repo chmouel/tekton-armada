@@ -18,10 +18,10 @@ limitations under the License.
 
 package v1alpha1
 
-// JobListerExpansion allows custom methods to be added to
-// JobLister.
-type JobListerExpansion interface{}
+// FireListerExpansion allows custom methods to be added to
+// FireLister.
+type FireListerExpansion interface{}
 
-// JobNamespaceListerExpansion allows custom methods to be added to
-// JobNamespaceLister.
-type JobNamespaceListerExpansion interface{}
+// FireNamespaceListerExpansion allows custom methods to be added to
+// FireNamespaceLister.
+type FireNamespaceListerExpansion interface{}

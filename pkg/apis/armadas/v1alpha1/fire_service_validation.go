@@ -7,11 +7,11 @@ import (
 )
 
 // Validate implements apis.Validatable
-func (as *Job) Validate(ctx context.Context) *apis.FieldError {
+func (as *Fire) Validate(ctx context.Context) *apis.FieldError {
 	return as.Spec.Validate(ctx).ViaField("spec")
 }
 
 // Validate implements apis.Validatable
-func (ass *JobSpec) Validate(ctx context.Context) *apis.FieldError {
+func (ass *FireSpec) Validate(ctx context.Context) *apis.FieldError {
 	return nil
 }

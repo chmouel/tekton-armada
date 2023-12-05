@@ -21,5 +21,5 @@ import (
 )
 
 // SetDefaults implements apis.Defaultable
-func (as *Job) SetDefaults(ctx context.Context) {
+func (as *Fire) SetDefaults(ctx context.Context) {
 }

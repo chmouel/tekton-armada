@@ -28,7 +28,7 @@ import (
 
 type GithubV1alpha1Interface interface {
 	RESTClient() rest.Interface
-	JobsGetter
+	FiresGetter
 }
 
 // GithubV1alpha1Client is used to interact with features provided by the github.com/chmouel/armadas group.
@@ -36,8 +36,8 @@ type GithubV1alpha1Client struct {
 	restClient rest.Interface
 }
 
-func (c *GithubV1alpha1Client) Jobs(namespace string) JobInterface {
-	return newJobs(c, namespace)
+func (c *GithubV1alpha1Client) Fires(namespace string) FireInterface {
+	return newFires(c, namespace)
 }
 
 // NewForConfig creates a new GithubV1alpha1Client for the given config.

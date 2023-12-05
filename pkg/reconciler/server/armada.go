@@ -22,7 +22,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 
 	armadav1alpha1 "github.com/chmouel/armadas/pkg/apis/armadas/v1alpha1"
-	jobreconciler "github.com/chmouel/armadas/pkg/client/injection/reconciler/armadas/v1alpha1/job"
+	fireconciler "github.com/chmouel/armadas/pkg/client/injection/reconciler/armadas/v1alpha1/fire"
 	"knative.dev/pkg/logging"
 	"knative.dev/pkg/reconciler"
 )
@@ -34,10 +34,10 @@ type Reconciler struct {
 }
 
 // Check that our Reconciler implements Interface
-var _ jobreconciler.Interface = (*Reconciler)(nil)
+var _ fireconciler.Interface = (*Reconciler)(nil)
 
 // ReconcileKind implements Interface.ReconcileKind.
-func (r *Reconciler) ReconcileKind(ctx context.Context, d *armadav1alpha1.Job) reconciler.Event {
+func (r *Reconciler) ReconcileKind(ctx context.Context, d *armadav1alpha1.Fire) reconciler.Event {
 	// This logger has all the context necessary to identify which resource is being reconciled.
 	logger := logging.FromContext(ctx)
 	logger.Infof("Let's do a reconcilation  my friend: %v", d)

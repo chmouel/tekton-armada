@@ -23,55 +23,55 @@ import (
 	"knative.dev/pkg/kmeta"
 )
 
-// Job is spanish for yoplait
+// Fire is spanish for yoplait
 //
 // +genclient
 // +genreconciler
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-type Job struct {
+type Fire struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	// Spec holds the desired state of the Armada (from the client).
 	// +optional
-	Spec JobSpec `json:"spec,omitempty"`
+	Spec FireSpec `json:"spec,omitempty"`
 
 	// Status communicates the observed state of the Armada (from the controller).
 	// +optional
-	Status JobStatus `json:"status,omitempty"`
+	Status FireStatus `json:"status,omitempty"`
 }
 
 var (
 	// Check that Armada can be validated and defaulted.
-	_ apis.Validatable   = (*Job)(nil)
-	_ apis.Defaultable   = (*Job)(nil)
-	_ kmeta.OwnerRefable = (*Job)(nil)
+	_ apis.Validatable   = (*Fire)(nil)
+	_ apis.Defaultable   = (*Fire)(nil)
+	_ kmeta.OwnerRefable = (*Fire)(nil)
 	// Check that the type conforms to the duck Knative Resource shape.
-	_ duckv1.KRShaped = (*Job)(nil)
+	_ duckv1.KRShaped = (*Fire)(nil)
 )
 
-// JobSpec holds the desired state of the Armada (from the client).
-type JobSpec struct{}
+// FireSpec holds the desired state of the Armada (from the client).
+type FireSpec struct{}
 
-// JobStatus is the status that makes it the best of the best
-type JobStatus struct {
+// FireStatus is the status that makes it the best of the best
+type FireStatus struct {
 	duckv1.Status `json:",inline"`
 
 	Accepted []*duckv1.SourceList `json:"address,omitempty"`
 }
 
-// JobList is a list of Armada resources
+// FireList is a list of Armada resources
 //
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-type JobList struct {
+type FireList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`
 
-	Items []Job `json:"items"`
+	Items []Fire `json:"items"`
 }
 
 // GetStatus retrieves the status of the resource. Implements the KRShaped interface.
-func (d *Job) GetStatus() *duckv1.Status {
+func (d *Fire) GetStatus() *duckv1.Status {
 	return &d.Status.Status
 }

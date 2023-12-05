@@ -32,59 +32,59 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// JobInformer provides access to a shared informer and lister for
-// Jobs.
-type JobInformer interface {
+// FireInformer provides access to a shared informer and lister for
+// Fires.
+type FireInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.JobLister
+	Lister() v1alpha1.FireLister
 }
 
-type jobInformer struct {
+type fireInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewJobInformer constructs a new informer for Job type.
+// NewFireInformer constructs a new informer for Fire type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredJobInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewFireInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredFireInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredJobInformer constructs a new informer for Job type.
+// NewFilteredFireInformer constructs a new informer for Fire type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredFireInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.GithubV1alpha1().Jobs(namespace).List(context.TODO(), options)
+				return client.GithubV1alpha1().Fires(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.GithubV1alpha1().Jobs(namespace).Watch(context.TODO(), options)
+				return client.GithubV1alpha1().Fires(namespace).Watch(context.TODO(), options)
 			},
 		},
-		&armadasv1alpha1.Job{},
+		&armadasv1alpha1.Fire{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *jobInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredJobInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *fireInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredFireInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *jobInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&armadasv1alpha1.Job{}, f.defaultInformer)
+func (f *fireInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&armadasv1alpha1.Fire{}, f.defaultInformer)
 }
 
-func (f *jobInformer) Lister() v1alpha1.JobLister {
-	return v1alpha1.NewJobLister(f.Informer().GetIndexer())
+func (f *fireInformer) Lister() v1alpha1.FireLister {
+	return v1alpha1.NewFireLister(f.Informer().GetIndexer())
 }

@@ -21,13 +21,13 @@ package fake
 import (
 	context "context"
 
-	job "github.com/chmouel/armadas/pkg/client/injection/informers/armadas/v1alpha1/job"
+	fire "github.com/chmouel/armadas/pkg/client/injection/informers/armadas/v1alpha1/fire"
 	fake "github.com/chmouel/armadas/pkg/client/injection/informers/factory/fake"
 	controller "knative.dev/pkg/controller"
 	injection "knative.dev/pkg/injection"
 )
 
-var Get = job.Get
+var Get = fire.Get
 
 func init() {
 	injection.Fake.RegisterInformer(withInformer)
@@ -35,6 +35,6 @@ func init() {
 
 func withInformer(ctx context.Context) (context.Context, controller.Informer) {
 	f := fake.Get(ctx)
-	inf := f.Github().V1alpha1().Jobs()
-	return context.WithValue(ctx, job.Key{}, inf), inf.Informer()
+	inf := f.Github().V1alpha1().Fires()
+	return context.WithValue(ctx, fire.Key{}, inf), inf.Informer()
 }

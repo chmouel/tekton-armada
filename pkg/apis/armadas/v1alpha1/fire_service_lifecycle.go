@@ -23,19 +23,19 @@ import (
 
 var (
 	condSet      = apis.NewLivingConditionSet()
-	ResourceName = "Job"
+	ResourceName = "Fire"
 )
 
 // GetGroupVersionKind implements kmeta.OwnerRefable
-func (*Job) GetGroupVersionKind() schema.GroupVersionKind {
+func (*Fire) GetGroupVersionKind() schema.GroupVersionKind {
 	return SchemeGroupVersion.WithKind(ResourceName)
 }
 
 // GetConditionSet retrieves the condition set for this resource. Implements the KRShaped interface.
-func (as *Job) GetConditionSet() apis.ConditionSet {
+func (as *Fire) GetConditionSet() apis.ConditionSet {
 	return condSet
 }
 
 // InitializeConditions sets the initial values to the conditions.
-func (ass *Job) InitializeConditions() {
+func (ass *Fire) InitializeConditions() {
 }

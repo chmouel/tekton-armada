@@ -2,6 +2,6 @@
 # sample-app repo.
 ---
 apiVersion: "armadas.chmouel.com/v1alpha1"
-kind: Job
+kind: Fire
 metadata:
-  name: sample-job
+  name: sample-fire

@@ -22,21 +22,21 @@ import (
 	"knative.dev/pkg/configmap"
 	"knative.dev/pkg/controller"
 
-	jobinformer "github.com/chmouel/armadas/pkg/client/injection/informers/armadas/v1alpha1/job"
-	jobreconciler "github.com/chmouel/armadas/pkg/client/injection/reconciler/armadas/v1alpha1/job"
+	fireinformer "github.com/chmouel/armadas/pkg/client/injection/informers/armadas/v1alpha1/fire"
+	firereconciler "github.com/chmouel/armadas/pkg/client/injection/reconciler/armadas/v1alpha1/fire"
 	kubeclient "knative.dev/pkg/client/injection/kube/client"
 )
 
 // NewController creates a Reconciler and returns the result of NewImpl.
 func NewController(ctx context.Context, _ configmap.Watcher) *controller.Impl {
-	jobInformer := jobinformer.Get(ctx)
+	fireInformer := fireinformer.Get(ctx)
 
 	r := &Reconciler{
 		kubeclient: kubeclient.Get(ctx),
 	}
-	impl := jobreconciler.NewImpl(ctx, r)
+	impl := firereconciler.NewImpl(ctx, r)
 
-	_, _ = jobInformer.Informer().AddEventHandler(
+	_, _ = fireInformer.Informer().AddEventHandler(
 		controller.HandleAll(impl.Enqueue),
 	)
 
