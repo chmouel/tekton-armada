@@ -18,7 +18,6 @@ require (
 	k8s.io/code-generator v0.28.4
 	k8s.io/kube-openapi v0.0.0-20231129212854-f0671cc7e66a
 	knative.dev/hack v0.0.0-20231201014241-7030d5bf584d
-	knative.dev/hack/schema v0.0.0-20231201014241-7030d5bf584d
 	knative.dev/pkg v0.0.0-20231204120332-9386ad6703ee
 )
 
@@ -56,7 +55,6 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/golang-lru v1.0.2 // indirect
 	github.com/imdario/mergo v0.3.16 // indirect
-	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0 // indirect
@@ -74,7 +72,6 @@ require (
 	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/prometheus/statsd_exporter v0.25.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect

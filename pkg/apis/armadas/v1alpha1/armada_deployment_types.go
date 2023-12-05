@@ -58,8 +58,6 @@ type JobSpec struct{}
 type JobStatus struct {
 	duckv1.Status `json:",inline"`
 
-	// Address holds the information needed to connect this Addressable up to receive events.
-	// +optional
 	Accepted []*duckv1.SourceList `json:"address,omitempty"`
 }
 
