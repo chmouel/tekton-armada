@@ -29,7 +29,9 @@ import (
 
 // Fire is spanish for yoplait
 //
-// +k8s:openapi-gen=true
+// +genclient
+// +genreconciler
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type Fire struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
@@ -61,8 +63,6 @@ type FireSpec struct {
 // FireStatus is the status that makes it the best of the best
 type FireStatus struct {
 	duckv1.Status `json:",inline"`
-
-	Accepted []*duckv1.SourceList `json:"address,omitempty"`
 }
 
 // FireList is a list of Armada resources

@@ -30,6 +30,7 @@ import (
 
 	armadav1alpha1 "github.com/chmouel/armadas/pkg/apis/armadas/v1alpha1"
 	fireconciler "github.com/chmouel/armadas/pkg/client/injection/reconciler/armadas/v1alpha1/fire"
+	"knative.dev/pkg/apis"
 	"knative.dev/pkg/logging"
 	"knative.dev/pkg/reconciler"
 )
@@ -41,7 +42,13 @@ type Reconciler struct {
 	httpClient *http.Client
 }
 
+const (
+	FireSentReady    = apis.ConditionReady
+	defaultServerURL = "http://armada-server:3344/job"
+)
+
 func (r *Reconciler) fireToTheServer(ctx context.Context, spec armadav1alpha1.FireSpec, dest string) (*http.Response, error) {
+	logger := logging.FromContext(ctx)
 	// encode spec to json
 	jsonSpec, err := json.Marshal(spec)
 	if err != nil {
@@ -51,9 +58,10 @@ func (r *Reconciler) fireToTheServer(ctx context.Context, spec armadav1alpha1.Fi
 	if err != nil {
 		return nil, err
 	}
+	logger.Infof("POST to %s", dest)
 	// make a request
 	request := &http.Request{
-		Method: "POST",
+		Method: http.MethodPost,
 		URL:    u,
 		Body:   io.NopCloser(bytes.NewBuffer(jsonSpec)),
 		Header: map[string][]string{
@@ -81,9 +89,7 @@ var _ fireconciler.Interface = (*Reconciler)(nil)
 // ReconcileKind implements Interface.ReconcileKind.
 func (r *Reconciler) ReconcileKind(ctx context.Context, d *armadav1alpha1.Fire) reconciler.Event {
 	// This logger has all the context necessary to identify which resource is being reconciled.
-	logger := logging.FromContext(ctx)
-	logger.Infof("Let's do a reconcilation my friend: %v", d)
-	_, err := r.fireToTheServer(ctx, d.Spec, "http//armada-server:3344")
+	_, err := r.fireToTheServer(ctx, d.Spec, defaultServerURL)
 	if err != nil {
 		return err
 	}
