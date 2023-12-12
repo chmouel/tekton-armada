@@ -67,7 +67,7 @@ func (c *controller) getRouter() http.Handler {
 		// redirect to /new
 		w.Header().Set("Content-Type", "text/html")
 		w.WriteHeader(http.StatusFound)
-		_, _ = w.Write([]byte("<img src=\"https://cdn.futura-sciences.com/sources/images/glossaire/and.jpg\">"))
+		_, _ = w.Write([]byte("<img src=\"https://assets.editorial.aetnd.com/uploads/2018/05/spanish-armada-gettyimages-600007851.jpg\">"))
 	})
 
 	router.Get("/tag/{tag}", func(w http.ResponseWriter, r *http.Request) {

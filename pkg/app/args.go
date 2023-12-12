@@ -6,7 +6,7 @@ const (
 	// defaultServerPort is the default port to listen on
 	defaultServerPort = 3344
 	// defaultServerAddress is the default address to listen on
-	defaultServerAddress = "localhost"
+	defaultServerAddress = "0.0.0.0"
 )
 
 var (

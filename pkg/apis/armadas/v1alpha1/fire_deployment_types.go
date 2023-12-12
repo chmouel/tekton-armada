@@ -23,22 +23,22 @@ import (
 	"knative.dev/pkg/kmeta"
 )
 
-// Fire is spanish for yoplait
-//
 // +genclient
 // +genreconciler
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// Fire is spanish for yoplait
+//
+// +k8s:openapi-gen=true
 type Fire struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	// Spec holds the desired state of the Armada (from the client).
-	// +optional
 	Spec FireSpec `json:"spec,omitempty"`
 
 	// Status communicates the observed state of the Armada (from the controller).
-	// +optional
 	Status FireStatus `json:"status,omitempty"`
 }
 
@@ -51,8 +51,12 @@ var (
 	_ duckv1.KRShaped = (*Fire)(nil)
 )
 
-// FireSpec holds the desired state of the Armada (from the client).
-type FireSpec struct{}
+// FireSpec defines the desired state of the Fire, represented
+// by a list of Fires.
+type FireSpec struct {
+	Tags  []string `json:"tags"`
+	YAMLs []string `json:"yamls"`
+}
 
 // FireStatus is the status that makes it the best of the best
 type FireStatus struct {

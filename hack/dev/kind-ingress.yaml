@@ -1,0 +1,19 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: armadas-server
+  namespace: armadas
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "server.armada-127-0-0-1.nip.io"
+      http:
+        paths:
+          - backend:
+              service:
+                name: "armada-server"
+                port:
+                  number: 3344
+            path: /
+            pathType: Prefix

@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: armada-reconciler
+  namespace: armadas
+  labels:
+    armadas.chmouel.com/release: devel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: armada-reconciler
+  template:
+    metadata:
+      labels:
+        app: armada-reconciler
+        armadas.chmouel.com/release: devel
+    spec:
+      # To avoid node becoming SPOF, spread our replicas to different nodes.
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: armada-reconciler
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      serviceAccountName: server
+      containers:
+        - name: armada-reconciler
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: ko://github.com/chmouel/armadas/cmd/reconciler
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+          ports:
+            - name: metrics
+              containerPort: 9090
+          env:
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONFIG_LOGGING_NAME
+              value: config-logging
+            - name: CONFIG_OBSERVABILITY_NAME
+              value: config-observability
+            - name: METRICS_DOMAIN
+              value: chmouel.com/armadas
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - all

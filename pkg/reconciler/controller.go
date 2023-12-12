@@ -18,6 +18,8 @@ package reconciler
 
 import (
 	"context"
+	"net/http"
+	"time"
 
 	"knative.dev/pkg/configmap"
 	"knative.dev/pkg/controller"
@@ -27,12 +29,19 @@ import (
 	kubeclient "knative.dev/pkg/client/injection/kube/client"
 )
 
+func httpClient() *http.Client {
+	return &http.Client{
+		Timeout: 10 * time.Second,
+	}
+}
+
 // NewController creates a Reconciler and returns the result of NewImpl.
 func NewController(ctx context.Context, _ configmap.Watcher) *controller.Impl {
 	fireInformer := fireinformer.Get(ctx)
 
 	r := &Reconciler{
 		kubeclient: kubeclient.Get(ctx),
+		httpClient: httpClient(),
 	}
 	impl := firereconciler.NewImpl(ctx, r)
 
