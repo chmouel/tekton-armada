@@ -93,5 +93,11 @@ func (r *Reconciler) ReconcileKind(ctx context.Context, d *armadav1alpha1.Fire) 
 	if err != nil {
 		return err
 	}
+	d.Status.SetConditions(apis.Conditions{
+		{
+			Type:   "Fire",
+			Status: "OK",
+		},
+	})
 	return nil
 }

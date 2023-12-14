@@ -51,7 +51,7 @@ func serve(c *cli.Context) error {
 	router.Get("/", func(w http.ResponseWriter, _ *http.Request) {
 		// redirect to /new
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte("<img src=\"https://cdn.futura-sciences.com/sources/images/glossaire/and.jpg\">"))
+		_, _ = w.Write([]byte("<img src=\"https://cdn.futura-sciences.com/sources/images/glossaire/and.jpg\">"))
 		w.WriteHeader(http.StatusFound)
 	})
 

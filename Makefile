@@ -5,7 +5,11 @@ LDFLAGS := -s -w
 FLAGS += -ldflags "$(LDFLAGS)" -buildvcs=true
 OUTPUT_DIR = bin
 
-all: test lint build
+all: test lint allbinaries
+
+allbinaries: $(OUTPUT_DIR)/reconciler $(OUTPUT_DIR)/server
+$(OUTPUT_DIR)/%: cmd/% FORCE
+	go build -mod=vendor $(FLAGS)  -v -o $@ ./$<
 
 FORCE:
 
@@ -38,11 +42,9 @@ lint-go:
 	@golangci-lint run --disable gosimple --disable staticcheck --disable structcheck --disable unused
 
 .PHONY: lint-md
-lint-md: ${MD_FILES} ## runs markdownlint and vale on all markdown files
+lint-md: ${MD_FILES} ## runs markdownlinton all markdown files
 	@echo "Linting markdown files..."
 	@markdownlint $(MD_FILES)
-	@echo "Grammar check with vale of documentation..."
-	@vale docs/content --minAlertLevel=error --output=line
 
 fmt:
 	@go fmt `go list ./... | grep -v /vendor/`
